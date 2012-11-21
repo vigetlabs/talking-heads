@@ -3,38 +3,38 @@ var app    = express(),
     server = require('http').createServer(app),
     io     = require("socket.io").listen(server);
 
-console.log("listening on port 3000");
-server.listen(3000);
-
 app.engine('html', require('ejs').renderFile);
 app.use(express.static('public'));
 
 io.sockets.on('connection', function (socket) {
 
+    socket.emit('update', app.get("state") );
+
     socket.on("getstate", function() {
-        socket.emit('update', state);
+        socket.emit('update', app.get("state") );
     });
 
 });
 
-var state = "idle";
+server.listen(3000, function() {
+    console.log("listening on port 3000");
+});
+
+app.set("state", "idle");
 
 app.get("/", function(req, res) {
     res.render("index.html");
 });
 
-app.get("/robot", function(req, res) {
-    res.render("robot.html");
+app.get("/:head", function(req, res) {
+    var head = req.params.head + ".html";
+    res.render(head);
 });
 
-app.get("/yeti", function(req, res) {
-    res.render("yeti.html");
-});
+app.post("/say", function(req, res) {
+    var message = req.query.message,
+        state = message ? "talking" : "idle";
 
-app.post("/state/:value", function(req, res) {
-    state = req.params.value;
-    if (state !== 'idle' && state !== 'talking') {
-        state = 'idle';
-    }
+    app.set("state", state);
     res.send("\nState successfully changed to "  + state);
 });
