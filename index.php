@@ -1,4 +1,4 @@
-<a href="robot.html#idle">Robot Idle</a>
-<a href="robot.html#talking">Robot Talking</a>
-<a href="yeti.html#idle">Yeti</a>
-<a href="yeti.html#talking">Yeti</a>
+<p><a href="robot.html#idle">Robot Idle</a></p>
+<p><a href="robot.html#talking">Robot Talking</a></p>
+<p><a href="yeti.html#idle">Yeti</a></p>
+<p><a href="yeti.html#talking">Yeti</a></p>
