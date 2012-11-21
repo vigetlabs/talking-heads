@@ -1,0 +1,12 @@
+html, body {
+  background: #fff;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  background: #333;
+  text-align: center;
+}
+
+canvas {
+  background: #fff url(../images/loader.gif) 50% 50% no-repeat;
+}
