@@ -78,7 +78,7 @@ Cinemagraph.prototype.getAnimations = function() {
 
     return animations;
 
-}
+};
 
 Cinemagraph.prototype.update = function() {
 
