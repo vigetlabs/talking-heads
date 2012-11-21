@@ -3,6 +3,7 @@ var app    = express(),
     server = require('http').createServer(app),
     io     = require("socket.io").listen(server);
 
+console.log("listening on port 3000");
 server.listen(3000);
 
 app.engine('html', require('ejs').renderFile);
