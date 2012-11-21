@@ -36,5 +36,5 @@ app.post("/state/:value", function(req, res) {
     if (state !== 'idle' && state !== 'talking') {
         state = 'idle';
     }
-    res.send("State successfully changed to "  + state);
+    res.send("\nState successfully changed to "  + state);
 });
