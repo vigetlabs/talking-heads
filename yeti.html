@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Cinemagraph</title>
+    <title>Yeti</title>
     <link rel="stylesheet" href="css/style.css" />
 </head>
 
@@ -19,7 +19,7 @@
 <script>
     var animation = window.location.hash.slice(1) || "idle";
     var canvas = document.querySelector("#cinemagraph");
-    var cinema = new Cinemagraph(canvas, 'idle');
+    var cinema = new Cinemagraph(canvas, animation);
 
     window.onhashchange = function() {
       cinema.current = window.location.hash.slice(1);

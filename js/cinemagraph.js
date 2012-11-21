@@ -27,7 +27,7 @@ function Cinemagraph(canvas, start) {
 
     var self = this;
 
-    this.current = start || canvas.querySelector("[data-animation]").getAttribute("data-animation");
+    this.current    = start || canvas.querySelector("[data-animation]").getAttribute("data-animation");
     this.canvas     = canvas;
     this.ctx        = canvas.getContext('2d');
     this.animations = this.getAnimations();
@@ -40,7 +40,7 @@ function Cinemagraph(canvas, start) {
     this.fullscreen();
 
     this.src.onload = function() {
-        self.play(start);
+        self.play(self.current);
     };
 
 }
