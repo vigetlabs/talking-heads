@@ -1,0 +1,33 @@
+html, body {
+  background: #fff;
+  font: normal 16px/1.5em sans-serif;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  background: #333;
+  text-align: center;
+}
+
+canvas {
+  background: #fff url(../images/loader.gif) 50% 50% no-repeat;
+}
+
+.thumbnail-box {
+  margin: 80px auto;
+  width: 600px;
+  text-align: center;
+}
+
+.thumbnail {
+  color: #fff;
+  display: inline-block;
+  margin: 0 10px 40px;
+  text-decoration: none;
+  width: 250px;
+}
+
+.thumbnail img {
+  display: block;
+  margin-bottom: 10px;
+  max-width: 100%;
+}

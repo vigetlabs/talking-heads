@@ -1,0 +1,17 @@
+{
+  "author": "Nate Hunzaker <nate.hunzaker@viget.com> (http://viget.com)",
+  "name": "cinemagraph",
+  "description": "Talking heads",
+  "version": "0.0.1",
+  "dependencies": {
+    "express"   : "*",
+    "ejs"       : "*",
+    "socket.io" : "*"
+  },
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "engines": {
+    "node": "0.8.8",
+    "npm":  "1.1.x"
+  }
+}
