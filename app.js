@@ -61,6 +61,11 @@ app.post("/say", function(req, res) {
     res.send("\nState successfully changed to "  + state);
 });
 
+app.post("/shutup", function(req, res) {
+    app.set("state", "idle");
+    res.send("\nState successfully changed to idle");
+});
+
 
 // Global functions for REPL
 // -------------------------------------------------- //
