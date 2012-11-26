@@ -132,8 +132,6 @@
 
     Cinemagraph.prototype.play = function (keyframe) {
 
-        if (!this.canvasSupport) return;
-
         if (!this.animations[keyframe]) {
             throw new Error('Animation "' + keyframe + '" does not exist');
         }
