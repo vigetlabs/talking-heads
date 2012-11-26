@@ -23,7 +23,7 @@
         this.canvasSupport = canvas.getContext;
 
         if (this.canvasSupport) {
-            self.fullscreen();
+            this.fullscreen();
             this.ctx = canvas.getContext('2d');
         }
 
