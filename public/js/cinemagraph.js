@@ -23,99 +23,130 @@
         };
 }());
 
-function Cinemagraph(canvas, start) {
+(function() {
 
-    var self = this;
+    var Cinemagraph = window.Cinemagraph = function (canvas, start) {
 
-    this.current    = start || canvas.querySelector("[data-animation]").getAttribute("data-animation");
-    this.canvas     = canvas;
-    this.ctx        = canvas.getContext('2d');
-    this.animations = this.getAnimations();
-    this.timestamp  = Date.now();
-    this.current_frame = 0;
+        var self = this;
 
-    this.src = new Image();
-    this.src.src = canvas.getAttribute("data-src");
+        this.current    = start || canvas.querySelector("[data-animation]").getAttribute("data-animation");
+        this.canvas     = canvas;
 
-    this.fullscreen();
+        // Set the background of the canvas to the first frame of the sheet in
+        // case canvas is not supported
+        this.engageFallback();
 
-    this.src.onload = function() {
-        self.play(self.current);
-    };
+        // If canvas isn't supported, we'll return -- electing to only show the
+        // first frame
+        this.canvasSupport = canvas.getContext;
 
-}
+        if (this.canvasSupport) {
+            this.ctx = canvas.getContext('2d');
+        }
 
-Cinemagraph.prototype.fullscreen = function() {
-    this.canvas.style.width = (window.innerWidth) + "px";
-    this.canvas.style.height = (window.innerHeight) + "px";
-};
+        this.animations = this.getAnimations();
+        this.timestamp  = Date.now();
+        this.current_frame = 0;
 
-Cinemagraph.prototype.getAnimations = function() {
+        this.src = new Image();
+        this.src.src = canvas.getAttribute("data-src");
 
-    var elements   = this.canvas.querySelectorAll("[data-animation]"),
-        i = 0,
-        len = elements.length,
-        animations = {},
-        current, name, offset;
+        this.fullscreen();
 
-    for (i; i < len; i++) {
-
-        current = elements[i];
-        name    = current.getAttribute("data-animation"),
-        offset  = current.getAttribute("data-offset").split(",");
-
-        animations[name] = {
-            type      : name,
-            frames    : current.getAttribute('data-frames'),
-            duration  : current.getAttribute('data-duration'),
-            offset    : {
-                x: parseInt(offset[0]),
-                y: parseInt(offset[1])
-            }
+        this.src.onload = function() {
+            self.play(self.current);
         };
 
-    }
+    };
 
-    return animations;
+    Cinemagraph.prototype.engageFallback = function(offsetX, offsetY) {
 
-};
+        var src = this.canvas.getAttribute("data-src");
 
-Cinemagraph.prototype.update = function() {
+        offsetX = offsetX || 0;
+        offsetY = offsetY || 0;
 
-    window.requestAnimationFrame(this.update.bind(this));
+        this.canvas.style.background = "transparent url(" + src + ") "
+            + offsetX + "px " + offsetY + "px no-repeat";
+    };
 
-    var canvas = this.canvas,
-        ctx    = this.ctx,
-        src    = this.src,
-        anim   = this.animations[this.current];
+    Cinemagraph.prototype.fullscreen = function() {
+        this.canvas.style.width = (window.innerWidth) + "px";
+        this.canvas.style.height = (window.innerHeight) + "px";
+    };
 
-    var frame_length  = anim.duration / anim.frames,
-        time_elapsed  = Date.now() - this.timestamp;
+    Cinemagraph.prototype.getAnimations = function() {
 
-    if ( time_elapsed > frame_length) {
-        this.current_frame++;
+        var elements   = this.canvas.querySelectorAll("[data-animation]"),
+            i = 0,
+            len = elements.length,
+            animations = {},
+            current, name, offset;
+
+        for (i; i < len; i++) {
+
+            current = elements[i];
+            name    = current.getAttribute("data-animation"),
+            offset  = current.getAttribute("data-offset").split(",");
+
+            animations[name] = {
+                type      : name,
+                frames    : current.getAttribute('data-frames'),
+                duration  : current.getAttribute('data-duration'),
+                offset    : {
+                    x: parseInt(offset[0]),
+                    y: parseInt(offset[1])
+                }
+            };
+
+        }
+
+        return animations;
+
+    };
+
+    Cinemagraph.prototype.update = function() {
+
+        window.requestAnimationFrame(this.update.bind(this));
+
+        var canvas = this.canvas,
+            ctx    = this.ctx,
+            src    = this.src,
+            anim   = this.animations[this.current];
+
+        var frame_length  = anim.duration / anim.frames,
+            time_elapsed  = Date.now() - this.timestamp;
+
+        if ( time_elapsed > frame_length) {
+            this.current_frame++;
+            this.timestamp = Date.now();
+        }
+
+        if (this.current_frame > anim.frames) {
+            this.current_frame = 0;
+        }
+
+        var x = -(anim.offset.x + (canvas.width * this.current_frame)),
+            y = -anim.offset.y;
+
+        if (this.canvas) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(src, x, y);
+        } else {
+            this.engageFallback(x, y);
+        }
+
+    };
+
+    Cinemagraph.prototype.play = function (keyframe) {
+
+        if (!this.animations[keyframe]) throw 'Animation "' + keyframe + '" does not exist';
+
         this.timestamp = Date.now();
-    }
+        this.current = keyframe;
 
-    if (this.current_frame > anim.frames) {
-        this.current_frame = 0;
-    }
+        window.requestAnimationFrame(this.update.bind(this));
 
-    var x = -(anim.offset.x + (canvas.width * this.current_frame)),
-        y = -anim.offset.y;
+    };
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(src, x, y);
-
-};
-
-Cinemagraph.prototype.play = function (keyframe) {
-
-    if (!this.animations[keyframe]) throw 'Animation "' + keyframe + '" does not exist';
-
-    this.timestamp = Date.now();
-    this.current = keyframe;
-
-    window.requestAnimationFrame(this.update.bind(this));
-
-};
+}());
