@@ -14,4 +14,11 @@ convert +append yeti/idle/*.png yeti/compiled/idle.png
 convert +append yeti/talking/*.png yeti/compiled/talking.png
 convert -append -resize 30% yeti/compiled/*.png yeti.png
 
+echo "Creating reindeer spritesheet..."
+rm -rf rudy/compiled
+mkdir rudy/compiled
+convert +append rudy/idle/*.png rudy/compiled/idle.png
+convert +append rudy/talking/*.png rudy/compiled/talking.png
+convert -append -resize 30% rudy/compiled/*.png rudy.png
+
 echo "Done!"

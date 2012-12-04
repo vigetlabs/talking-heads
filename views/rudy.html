@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Yeti</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+<canvas id="cinemagraph" data-src="images/rudy.png" height="504" width="896">
+    <i data-animation="idle"    data-frames="32" data-duration="1400" data-offset="0, 0"></i>
+    <i data-animation="talking" data-frames="30" data-duration="1500" data-offset="0, 504"></i>
+</canvas>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/sockets.js"></script>
+<script src="/js/cinemagraph.js"></script>
+
+<script>
+    var animation = window.location.hash.slice(1) || "idle";
+    var canvas = document.querySelector("#cinemagraph");
+    var cinema = new Cinemagraph(canvas, animation);
+
+    window.onhashchange = function() {
+      cinema.current = window.location.hash.slice(1);
+    }
+</script>
+
+</body>
+
+</html>
