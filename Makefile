@@ -1,9 +1,4 @@
-it so:
-	make robot
-	make yeti
-	make reindeer
-
-default:
+all:
 	make robot
 	make yeti
 	make reindeer
@@ -34,3 +29,6 @@ reindeer:
 	convert +append public/images/rudy/talking/*.png public/images/rudy/compiled/talking.png
 	convert -append -resize 35% public/images/rudy/compiled/*.png public/images/rudy.png
 	echo "Done!"
+
+default:
+	make all

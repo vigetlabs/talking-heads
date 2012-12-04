@@ -13,6 +13,5 @@ node app --use-repl
 
 ## Recompile spritesheets
 ```bash
-cd public/images
-./build.sh
+make all
 ```
